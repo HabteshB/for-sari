@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sari's Secret Quiz 💖</title>
+
+<style>
+
+body{
+font-family: Arial, Helvetica, sans-serif;
+background-image:url("nathan-dumlao-EdULZpOKsUE-unsplash.jpg");
+background-size:cover;
+background-position:center;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:0;
+overflow:hidden;
+}
+
+.card{
+background:rgba(255,255,255,0.9);
+padding:40px;
+border-radius:20px;
+width:420px;
+max-width:90%;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+h2{
+color:#d63384;
+}
+
+button{
+padding:12px 25px;
+margin:10px;
+font-size:16px;
+border:none;
+border-radius:25px;
+cursor:pointer;
+transition:.2s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+.yes{
+background:#28a745;
+color:white;
+}
+
+.no{
+background:#dc3545;
+color:white;
+position:relative;
+}
+
+.final{
+font-size:22px;
+color:#ff0066;
+font-weight:bold;
+}
+
+#gameArea{
+margin-top:20px;
+height:200px;
+border-radius:10px;
+position:relative;
+background:#fff0f6;
+}
+
+#heart{
+position:absolute;
+font-size:30px;
+cursor:pointer;
+}
+
+#photo{
+width:200px;
+border-radius:15px;
+margin-top:15px;
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2 id="question">Hello Sari 💖 I made a small quiz for you...</h2>
+
+<div id="answers">
+<button class="yes" onclick="startQuiz()">Start 😏</button>
+</div>
+
+<div id="gameArea" style="display:none">
+<p>Mini Game: Catch the heart 3 times ❤️</p>
+<div id="heart">💖</div>
+</div>
+
+<img id="photo" src="sari_photo.jpg">
+
+</div>
+
+<audio id="music" loop>
+<source src="Michael Belayneh - አሸነፈ  Ashenefe Track 02 (Official Audio)_01.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+let step=0
+let gameScore=0
+
+const questions=[
+
+"First question Sari… are you the cutest girl I know? 😏",
+
+"Do you enjoy talking with me? 😂",
+
+"Hypothetically… what if I really like you?",
+
+"Scientific question: do you like me too? 👀"
+
+]
+
+function startQuiz(){
+
+document.getElementById("music").play()
+
+loadQuestion()
+
+}
+
+function loadQuestion(){
+
+if(step < questions.length){
+
+document.getElementById("question").innerText=questions[step]
+
+document.getElementById("answers").innerHTML=
+'<button class="yes" onclick="next()">Yes</button>'+
+'<button class="no" id="noBtn">No</button>'
+
+activateNoEscape()
+
+}else{
+
+startGame()
+
+}
+
+}
+
+function next(){
+
+step++
+
+loadQuestion()
+
+}
+
+function activateNoEscape(){
+
+let btn=document.getElementById("noBtn")
+
+btn.addEventListener("mouseover",()=>{
+
+let x=Math.random()*300
+let y=Math.random()*200
+
+btn.style.position="absolute"
+btn.style.left=x+"px"
+btn.style.top=y+"px"
+
+})
+
+}
+
+function startGame(){
+
+document.getElementById("question").innerText=
+"Sari... before the final question you must pass this challenge 😈"
+
+document.getElementById("answers").innerHTML=""
+
+document.getElementById("gameArea").style.display="block"
+
+moveHeart()
+
+}
+
+function moveHeart(){
+
+let heart=document.getElementById("heart")
+
+heart.onclick=()=>{
+
+gameScore++
+
+if(gameScore>=3){
+
+finalQuestion()
+
+}else{
+
+heartMove()
+
+}
+
+}
+
+heartMove()
+
+}
+
+function heartMove(){
+
+let heart=document.getElementById("heart")
+
+heart.style.left=Math.random()*250+"px"
+heart.style.top=Math.random()*120+"px"
+
+}
+
+function finalQuestion(){
+
+document.getElementById("gameArea").style.display="none"
+
+document.getElementById("question").innerHTML=
+"Sari... I wanted to tell you something 💌"
+
+typeMessage("From the moment I met you, my days became brighter. I love talking with you, laughing with you, and being around you. So I have one final question...")
+
+}
+
+function typeMessage(text){
+
+let i=0
+let speed=40
+let el=document.getElementById("question")
+
+el.innerHTML=""
+
+function typing(){
+
+if(i<text.length){
+
+el.innerHTML+=text.charAt(i)
+i++
+setTimeout(typing,speed)
+
+}else{
+
+showProposal()
+
+}
+
+}
+
+typing()
+
+}
+
+function showProposal(){
+
+document.getElementById("answers").innerHTML=
+'<button class="yes" onclick="celebrate()">Will you be my girlfriend? 💖</button>'+
+'<button class="no" id="noBtn">No</button>'
+
+activateNoEscape()
+
+}
+
+function celebrate(){
+
+document.getElementById("question").innerHTML=
+"🎉 Sari you just made me the happiest person alive ❤️"
+
+document.getElementById("answers").innerHTML=""
+
+document.getElementById("photo").style.display="block"
+
+for(let i=0;i<40;i++){
+
+let heart=document.createElement("div")
+
+heart.innerHTML="💖"
+
+heart.style.position="fixed"
+heart.style.left=Math.random()*100+"%"
+heart.style.top="90%"
+heart.style.fontSize=(20+Math.random()*20)+"px"
+heart.style.animation="float 3s linear"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),3000)
+
+}
+
+}
+
+</script>
+
+<style>
+
+@keyframes float{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-400px);opacity:0;}
+}
+
+</style>
+
+</body>
+</html>
